@@ -103,10 +103,19 @@ def genres_ajouter_wtf():
             if form.validate_on_submit():
                 name_genre_wtf = form.nom_genre_wtf.data
                 name_genre = name_genre_wtf.lower()
-                valeurs_insertion_dictionnaire = {"value_intitule_genre": name_genre}
+                description = form.description_wtf.data
+                icon = form.icon_wtf.data
+                download = form.download_wtf.data
+
+
+                valeurs_insertion_dictionnaire = {"value_intitule_genre": name_genre,
+                                                  "value_description": description,
+                                                  "value_icon": icon,
+                                                  "value_download": download,
+                                                  }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_genre = """INSERT INTO t_genre (id_genre,intitule_genre) VALUES (NULL,%(value_intitule_genre)s) """
+                strsql_insert_genre = """INSERT INTO t-visiteur (id_visiteur,nom,icon_url,description,lien_telechargement) VALUES (NULL,%(value_intitule_genre)s,%(value_icon)s,%(value_description)s,%(value_download)s)"""
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_genre, valeurs_insertion_dictionnaire)
 
