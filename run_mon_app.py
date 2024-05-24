@@ -28,5 +28,3 @@ if __name__ == '__main__':
     app.secret_key = SECRET_KEY_FLASK
     # DEBUG_FLASK   inutile de vous dire que c'est insdipensable ... avant la version finale
     app.run(debug=DEBUG_FLASK, host=ADRESSE_SRV_FLASK, port=PORT_FLASK)
-
-    
