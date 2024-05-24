@@ -120,7 +120,7 @@ def genres_ajouter_wtf():
                     mconn_bd.execute(strsql_insert_genre, valeurs_insertion_dictionnaire)
 
                 flash(f"Données insérées !!", "success")
-                print(f"Données insérées !!")a
+                print(f"Données insérées !!")
 
                 # Pour afficher et constater l'insertion de la valeur, on affiche en ordre inverse. (DESC)
                 return redirect(url_for('genres_afficher', order_by='DESC', id_genre_sel=0))
