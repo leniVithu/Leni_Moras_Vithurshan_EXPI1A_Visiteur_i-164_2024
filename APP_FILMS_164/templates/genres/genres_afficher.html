@@ -4,9 +4,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<p>
-				Liste des visiteurs (Sociétés -> 1 ABC Company, 2 XYZ Corporation, 3 LMN Enterprises, 4 123 Industries, 5 PQR Ltd, 6 EFG Group, 7 UVW Inc, 8 RST Co, 9 GHI Ltd, 10 JKL Enterprise)
-			</p>
+
             <table class="table table-bordered table-sm">
             {% if data %}
                 <thead>
@@ -29,9 +27,7 @@
 						<th class="align-middle">
 							Numero de telephony
                         </th>
-						<th class="align-middle">
-							ID Société
-                        </th>
+
 						<th class="align-middle">
 							Vehicule?
                         </th>
@@ -60,9 +56,7 @@
 						<td class="align-middle">
 							{{ row.Numero_de_Telephone }}
 						</td>
-						<td class="align-middle">
-							{{ row.ID_Societe }}
-						</td>
+
 						<td class="align-middle">
 							{{ row.Le_Visiteur_se_deplace_en_Vehicule_Personnel }}
 						</td>

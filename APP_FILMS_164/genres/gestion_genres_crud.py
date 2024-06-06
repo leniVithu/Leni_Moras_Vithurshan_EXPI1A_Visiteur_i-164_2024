@@ -102,16 +102,39 @@ def genres_ajouter_wtf():
         try:
             if form.validate_on_submit():
                 name_genre_wtf = form.nom_genre_wtf.data
-                name_genre = name_genre_wtf.lower()
-                valeurs_insertion_dictionnaire = {"value_intitule_genre": name_genre}
+                prenom_genre_wtf = form.prenom_genre_wtf.data
+                adresse_genre_wtf = form.adresse_genre_wtf.data
+                datenaiss_genre_wtf = form.datenaiss_genre_wtf.data
+                telephone_genre_wtf = form.telephone_genre_wtf.data
+                vehicule_genre_wtf = form.vehicule_genre_wtf.data
+
+                valeurs_insertion_dictionnaire = {
+                    "value_intitule_genre": name_genre_wtf,
+                    "value_prenom_genre": prenom_genre_wtf,
+                    "value_adresse_genre": adresse_genre_wtf,
+                    "value_datenaiss_genre": datenaiss_genre_wtf,
+                    "value_telephone_genre": telephone_genre_wtf,
+                    "value_vehicule_genre": vehicule_genre_wtf
+                }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_genre = """INSERT INTO t_genre (id_genre,intitule_genre) VALUES (NULL,%(value_intitule_genre)s) """
+                strsql_insert_genre = """
+                    INSERT INTO t_visiteur (
+                        Nom, Prenom, Adresse, Date_de_Naissance, Numero_de_Telephone, Le_Visiteur_se_deplace_en_Vehicule_Personnel
+                    ) VALUES (
+                        %(value_intitule_genre)s,
+                        %(value_prenom_genre)s,
+                        %(value_adresse_genre)s,
+                        %(value_datenaiss_genre)s,
+                        %(value_telephone_genre)s,
+                        %(value_vehicule_genre)s
+                    )
+                """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_genre, valeurs_insertion_dictionnaire)
 
-                flash(f"Données insérées !!", "success")
-                print(f"Données insérées !!")
+                flash("Données insérées !!", "success")
+                print("Données insérées !!")
 
                 # Pour afficher et constater l'insertion de la valeur, on affiche en ordre inverse. (DESC)
                 return redirect(url_for('genres_afficher', order_by='DESC', id_genre_sel=0))
