@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %} Modifier les Sociétés Associées au Visiteur {% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='tags-selector-tagselect/jquery.tagselect.css') }}">
+    <script src="{{ url_for('static', filename='tags-selector-tagselect/jquery.tagselect.js') }}"></script>
+{% endblock %}
+{% block body %}
+<style>
+    ol, ul, li {
+        list-style: none;
+    }
+</style>
+
+<div class="container">
+    <div class="col-md-12">
+        <p>
+            Tagselect, c'est une DROPBOX qui surgit quand on sélectionne l'espace "TAGS". Pour votre information, le composant TAGSELECT est à disposition sur ce site :
+            <a href="https://www.jqueryscript.net/form/tags-selector-tagselect.html" target="_blank">https://www.jqueryscript.net/form/tags-selector-tagselect.html</a>
+        </p>
+        <p>
+            Visiteur.
+        </p>
+        <table class="table table-responsive-sm">
+            {% if data_visiteur_selected %}
+                <thead>
+                    <tr>
+                        <th class="">
+                            Id
+                        </th>
+                        <th class="">
+                            Nom
+                        </th>
+                        <th class="">
+                            Prénom
+                        </th>
+                        <th class="">
+                            Adresse
+                        </th>
+                        <th class="">
+                            Date de Naissance
+                        </th>
+                        <th class="">
+                            Numéro de Téléphone
+                        </th>
+                        <th class="">
+                            Se Déplace en Véhicule Personnel
+                        </th>
+                    </tr>
+                </thead>
+            {% endif %}
+
+            {% for row in data_visiteur_selected %}
+                <tbody>
+                    <tr>
+                        <td class="align-middle">
+                            {{ row.ID_Visiteur }}
+                        </td>
+                        <td class="align-middle">
+                            {{ row.Nom }}
+                        </td>
+                        <td class="align-middle">
+                            {{ row.Prenom }}
+                        </td>
+                        <td class="align-middle">
+                            {{ row.Adresse }}
+                        </td>
+                        <td class="align-middle">
+                            {{ row.Date_de_Naissance }}
+                        </td>
+                        <td class="align-middle">
+                            {{ row.Numero_de_Telephone }}
+                        </td>
+                        <td class="align-middle">
+                            {{ row.Le_Visiteur_se_deplace_en_Vehicule_Personnel }}
+                        </td>
+                    </tr>
+                </tbody>
+            {% else %}
+                <tbody>
+                    <tr>
+                        <td>
+                            Aucun visiteur.
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mx-md-n5">
+        <div class="col px-md-5">
+            <div class="p-3">
+                <form id="form_tags_select_confirm" action="{{ url_for('update_visiteur_societe_selected') }}" method="POST">
+                    <div class="qtagselect isw360">
+                        <select id="OM_JTSD" name="name_select_tags" class="qtagselect__select" multiple>
+                            {% for row in data_societes_non_attribues %}
+                                <option value="{{ row.ID_Societe }}" name="name_tags_non_attribues_html" class="isblue">{{ row.Nom_de_la_Societe }}</option>
+                            {% endfor %}
+
+                            {% for row in data_societes_attribues %}
+                                <option value="{{ row.ID_Societe }}" name="name_tags_attribues_html" class="ispurple" selected>{{ row.Nom_de_la_Societe }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col px-md-5">
+            <div class="p-3">
+                <input type="submit" form="form_tags_select_confirm" class="btn btn-warning" value="Modifier">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $('.qtagselect__select').tagselect({
+        'maxTag': 100,
+        'tagMessage': '100 tags au max !'
+    });
+</script>
+{% endblock %}

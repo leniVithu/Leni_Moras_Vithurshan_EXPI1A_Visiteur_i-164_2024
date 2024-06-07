@@ -14,16 +14,16 @@ class FormWTFAjouterGenres(FlaskForm):
         Dans le formulaire "genres_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_genre_regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'\- ]*$"
+    nom_genre_regexp = r"^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'\- ]*$"
     nom_genre_wtf = StringField("Nom du visiteur ", validators=[
         Length(min=2, max=20, message="min 2 max 20"),
         Regexp(nom_genre_regexp,
                message="Pas de chiffres, de caractères spéciaux, d'espace à double, de double apostrophe, de double trait d'union")
     ])
 
-    prenom_genre_regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'\- ]*$"
+    prenom_genre_regexp = r"^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'\- ]*$"
     prenom_genre_wtf = StringField("Prénom du visiteur ", validators=[
-        Length(min=2, max=20, message="min 2 max 20"),
+        Length(min=2, max=255, message="min 2 max 255"),
         Regexp(prenom_genre_regexp,
                message="Pas de chiffres, de caractères spéciaux, d'espace à double, de double apostrophe, de double trait d'union")
     ])
@@ -51,14 +51,14 @@ class FormWTFUpdateGenre(FlaskForm):
         Dans le formulaire "genre_update_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_genre_regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'\- ]*$"
+    nom_genre_regexp = r"^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'\- ]*$"
     nom_genre_updatewtf = StringField("Nom du visiteur ", validators=[
         Length(min=2, max=20, message="min 2 max 20"),
         Regexp(nom_genre_regexp,
                message="Pas de chiffres, de caractères spéciaux, d'espace à double, de double apostrophe, de double trait d'union")
     ])
 
-    prenom_genre_regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'\- ]*$"
+    prenom_genre_regexp = r"^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'\- ]*$"
     prenom_genre_updatewtf = StringField("Prénom du visiteur ", validators=[
         Length(min=2, max=20, message="min 2 max 20"),
         Regexp(prenom_genre_regexp,
@@ -82,7 +82,6 @@ class FormWTFUpdateGenre(FlaskForm):
     ])
     submit = SubmitField("Update visiteur")
 
-
 class FormWTFDeleteGenre(FlaskForm):
     """
         Dans le formulaire "genre_delete_wtf.html"
@@ -92,7 +91,7 @@ class FormWTFDeleteGenre(FlaskForm):
         submit_btn_conf_del : Bouton de confirmation pour effacer un "genre".
         submit_btn_annuler : Bouton qui permet d'afficher la table "t_genre".
     """
-    nom_genre_delete_wtf = StringField("Effacer ce genre")
-    submit_btn_del = SubmitField("Effacer genre")
+    nom_genre_delete_wtf = StringField("Effacer ce visiteur")
+    submit_btn_del = SubmitField("Effacer Visiteur")
     submit_btn_conf_del = SubmitField("Etes-vous sur d'effacer ?")
     submit_btn_annuler = SubmitField("Annuler")

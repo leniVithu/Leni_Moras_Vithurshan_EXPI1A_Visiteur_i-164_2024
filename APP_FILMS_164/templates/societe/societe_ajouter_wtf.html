@@ -1,73 +1,27 @@
 {% extends "base.html" %}
-{% block title %} Ajouter un GENRE (WTF) {% endblock %}
+{% block title %} Ajouter une Société {% endblock %}
 {% block body %}
 <div class="container">
-	<div class="row">
-		<div class="col-md-12">
-			<p>
-				Ajouter un visiteur
-			</p>
-			<form action="" method="POST" novalidate>
-				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
-				{{ form.hidden_tag() }}
-				<div class="form-group">
-					<p>
-						{{ form.nom_genre_wtf.label }}<br>
-						{{ form.nom_genre_wtf(size=32) }}<br>
-						{% for error in form.nom_genre_wtf.errors %}
-							<span style="color: red;">[{{ error }}]</span>
-						{% endfor %}
-					</p>
-				</div>
-				<div class="form-group">
-					<p>
-						{{ form.prenom_genre_wtf.label }}<br>
-						{{ form.prenom_genre_wtf(size=32) }}<br>
-						{% for error in form.prenom_genre_wtf.errors %}
-							<span style="color: red;">[{{ error }}]</span>
-						{% endfor %}
-					</p>
-				</div>
-				<div class="form-group">
-					<p>
-						{{ form.adresse_genre_wtf.label }}<br>
-						{{ form.adresse_genre_wtf(size=32) }}<br>
-						{% for error in form.adresse_genre_wtf.errors %}
-							<span style="color: red;">[{{ error }}]</span>
-						{% endfor %}
-					</p>
-				</div>
-				<div class="form-group">
-					<p>
-						{{ form.datenaiss_genre_wtf.label }}<br>
-						{{ form.datenaiss_genre_wtf(size=32) }}<br>
-						{% for error in form.datenaiss_genre_wtf.errors %}
-							<span style="color: red;">[{{ error }}]</span>
-						{% endfor %}
-					</p>
-				</div>
-				<div class="form-group">
-					<p>
-						{{ form.telephone_genre_wtf.label }}<br>
-						{{ form.telephone_genre_wtf(size=32) }}<br>
-						{% for error in form.telephone_genre_wtf.errors %}
-							<span style="color: red;">[{{ error }}]</span>
-						{% endfor %}
-					</p>
-				</div>
-				<div class="form-group">
-					<p>
-						{{ form.vehicule_genre_wtf.label }}<br>
-						{{ form.vehicule_genre_wtf(size=32) }}<br>
-						{% for error in form.vehicule_genre_wtf.errors %}
-							<span style="color: red;">[{{ error }}]</span>
-						{% endfor %}
-					</p>
-				</div>
-				{{ form.submit(class="btn btn-primary") }}
-			</form>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Ajouter une Société
+            </p>
+            <form action="" method="POST" novalidate>
+                <!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <p>
+                        {{ form.nom_societe_wtf.label }}<br>
+                        {{ form.nom_societe_wtf(size=32) }}<br>
+                        {% for error in form.nom_societe_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                </div>
+                {{ form.submit(class="btn btn-primary") }}
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
-

@@ -262,10 +262,11 @@ def genre_update_wtf():
 
 @app.route("/genre_delete", methods=['GET', 'POST'])
 def genre_delete_wtf():
-    data_films_attribue_genre_delete = None
+    data_societe_attribue_visiteur_delete = None
+    data_visite_attribue_visiteur_delete = None
     btn_submit_del = None
     # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_genre"
-    id_genre_delete = request.values['id_genre_btn_delete_html']
+    id_visiteur_delete = request.values['id_genre_btn_delete_html']
 
     # Objet formulaire pour effacer le genre sélectionné.
     form_delete = FormWTFDeleteGenre()
@@ -279,63 +280,80 @@ def genre_delete_wtf():
             if form_delete.submit_btn_conf_del.data:
                 # Récupère les données afin d'afficher à nouveau
                 # le formulaire "genres/genre_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
-                data_films_attribue_genre_delete = session['data_films_attribue_genre_delete']
-                print("data_films_attribue_genre_delete ", data_films_attribue_genre_delete)
+                data_societe_attribue_visiteur_delete = session['data_societe_attribue_visiteur_delete']
+                data_visite_attribue_visiteur_delete = session['data_visite_attribue_visiteur_delete']
+                print("data_societe_attribue_visiteur_delete ", data_societe_attribue_visiteur_delete)
+                print("data_visite_attribue_visiteur_delete ", data_visite_attribue_visiteur_delete)
 
-                flash(f"Effacer le genre de façon définitive de la BD !!!", "danger")
+                flash(f"Effacer le visiteur de façon définitive de la BD !!!", "danger")
                 # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
-                # On affiche le bouton "Effacer genre" qui va irrémédiablement EFFACER le genre
+                # On affiche le bouton "Effacer visiteur" qui va irrémédiablement EFFACER le visiteur
                 btn_submit_del = True
 
             if form_delete.submit_btn_del.data:
-                valeur_delete_dictionnaire = {"value_id_genre": id_genre_delete}
+                valeur_delete_dictionnaire = {"value_id_visiteur": id_visiteur_delete}
                 print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
-                str_sql_delete_films_genre = """DELETE FROM t_genre_film WHERE fk_genre = %(value_id_genre)s"""
-                str_sql_delete_idgenre = """DELETE FROM t_genre WHERE id_genre = %(value_id_genre)s"""
-                # Manière brutale d'effacer d'abord la "fk_genre", même si elle n'existe pas dans la "t_genre_film"
-                # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
-                with DBconnection() as mconn_bd:
-                    mconn_bd.execute(str_sql_delete_films_genre, valeur_delete_dictionnaire)
-                    mconn_bd.execute(str_sql_delete_idgenre, valeur_delete_dictionnaire)
+                str_sql_delete_visiteur_societe = """DELETE FROM t_visiteur_societe WHERE FK_visiteur = %(value_id_visiteur)s"""
+                str_sql_delete_visiteur_visite = """DELETE FROM t_visiteur_visite WHERE FK_visiteur = %(value_id_visiteur)s"""
+                str_sql_delete_idvisiteur = """DELETE FROM t_visiteur WHERE ID_Visiteur = %(value_id_visiteur)s"""
 
-                flash(f"Genre définitivement effacé !!", "success")
-                print(f"Genre définitivement effacé !!")
+                with DBconnection() as mconn_bd:
+                    mconn_bd.execute(str_sql_delete_visiteur_societe, valeur_delete_dictionnaire)
+                    mconn_bd.execute(str_sql_delete_visiteur_visite, valeur_delete_dictionnaire)
+                    mconn_bd.execute(str_sql_delete_idvisiteur, valeur_delete_dictionnaire)
+
+                flash(f"Visiteur définitivement effacé !!", "success")
+                print(f"Visiteur définitivement effacé !!")
 
                 # afficher les données
                 return redirect(url_for('genres_afficher', order_by="ASC", id_genre_sel=0))
 
         if request.method == "GET":
-            valeur_select_dictionnaire = {"value_id_genre": id_genre_delete}
-            print(id_genre_delete, type(id_genre_delete))
+            valeur_select_dictionnaire = {"value_id_visiteur": id_visiteur_delete}
+            print(id_visiteur_delete, type(id_visiteur_delete))
 
-            # Requête qui affiche tous les films_genres qui ont le genre que l'utilisateur veut effacer
-            str_sql_genres_films_delete = """SELECT id_genre_film, nom_film, id_genre, intitule_genre FROM t_genre_film 
-                                            INNER JOIN t_film ON t_genre_film.fk_film = t_film.id_film
-                                            INNER JOIN t_genre ON t_genre_film.fk_genre = t_genre.id_genre
-                                            WHERE fk_genre = %(value_id_genre)s"""
-
+            # Requête qui affiche toutes les sociétés attribuées au visiteur que l'utilisateur veut effacer
+            str_sql_visiteur_societe_delete = """SELECT t_visiteur_societe.ID_visiteur_societe, t_visiteur.Nom, t_visiteur.Prenom, t_visiteur.ID_Visiteur, t_visiteur.Adresse, t_societe.Nom_de_la_Societe 
+                                                FROM t_visiteur_societe 
+                                                INNER JOIN t_visiteur ON t_visiteur_societe.FK_visiteur = t_visiteur.ID_Visiteur
+                                                INNER JOIN t_societe ON t_visiteur_societe.FK_societe = t_societe.ID_Societe
+                                                WHERE FK_visiteur = %(value_id_visiteur)s"""
             with DBconnection() as mydb_conn:
-                mydb_conn.execute(str_sql_genres_films_delete, valeur_select_dictionnaire)
-                data_films_attribue_genre_delete = mydb_conn.fetchall()
-                print("data_films_attribue_genre_delete...", data_films_attribue_genre_delete)
+                mydb_conn.execute(str_sql_visiteur_societe_delete, valeur_select_dictionnaire)
+                data_societe_attribue_visiteur_delete = mydb_conn.fetchall()
+                print("data_societe_attribue_visiteur_delete...", data_societe_attribue_visiteur_delete)
 
                 # Nécessaire pour mémoriser les données afin d'afficher à nouveau
                 # le formulaire "genres/genre_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
-                session['data_films_attribue_genre_delete'] = data_films_attribue_genre_delete
+                session['data_societe_attribue_visiteur_delete'] = data_societe_attribue_visiteur_delete
 
-                # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
-                str_sql_id_genre = "SELECT id_genre, intitule_genre FROM t_genre WHERE id_genre = %(value_id_genre)s"
+                # Requête qui affiche toutes les visites attribuées au visiteur que l'utilisateur veut effacer
+                str_sql_visiteur_visite_delete = """SELECT t_visiteur_visite.ID_visiteur_visite, t_visiteur.Nom, t_visiteur.Prenom, t_visiteur.ID_Visiteur, t_visiteur.Adresse, t_visite.Date_de_Visite, t_visite.Motif_de_Visite, t_visite.Nom_du_Batiment 
+                                                    FROM t_visiteur_visite 
+                                                    INNER JOIN t_visiteur ON t_visiteur_visite.FK_visiteur = t_visiteur.ID_Visiteur
+                                                    INNER JOIN t_visite ON t_visiteur_visite.FK_visite = t_visite.ID_Visite
+                                                    WHERE FK_visiteur = %(value_id_visiteur)s"""
+                mydb_conn.execute(str_sql_visiteur_visite_delete, valeur_select_dictionnaire)
+                data_visite_attribue_visiteur_delete = mydb_conn.fetchall()
+                print("data_visite_attribue_visiteur_delete...", data_visite_attribue_visiteur_delete)
 
-                mydb_conn.execute(str_sql_id_genre, valeur_select_dictionnaire)
+                # Nécessaire pour mémoriser les données afin d'afficher à nouveau
+                # le formulaire "genres/genre_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+                session['data_visite_attribue_visiteur_delete'] = data_visite_attribue_visiteur_delete
+
+                # Opération sur la BD pour récupérer "ID_Visiteur" et "Nom" de la "t_visiteur"
+                str_sql_id_visiteur = "SELECT ID_Visiteur, Nom FROM t_visiteur WHERE ID_Visiteur = %(value_id_visiteur)s"
+
+                mydb_conn.execute(str_sql_id_visiteur, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
-                # vu qu'il n'y a qu'un seul champ "nom genre" pour l'action DELETE
-                data_nom_genre = mydb_conn.fetchone()
-                print("data_nom_genre ", data_nom_genre, " type ", type(data_nom_genre), " genre ",
-                      data_nom_genre["intitule_genre"])
+                # vu qu'il n'y a qu'un seul champ "nom visiteur" pour l'action DELETE
+                data_nom_visiteur = mydb_conn.fetchone()
+                print("data_nom_visiteur ", data_nom_visiteur, " type ", type(data_nom_visiteur), " visiteur ",
+                      data_nom_visiteur["Nom"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "genre_delete_wtf.html"
-            form_delete.nom_genre_delete_wtf.data = data_nom_genre["intitule_genre"]
+            form_delete.nom_genre_delete_wtf.data = data_nom_visiteur["Nom"]
 
             # Le bouton pour l'action "DELETE" dans le form. "genre_delete_wtf.html" est caché.
             btn_submit_del = False
@@ -348,4 +366,5 @@ def genre_delete_wtf():
     return render_template("genres/genre_delete_wtf.html",
                            form_delete=form_delete,
                            btn_submit_del=btn_submit_del,
-                           data_films_associes=data_films_attribue_genre_delete)
+                           data_societe_associes=data_societe_attribue_visiteur_delete,
+                           data_visite_associes=data_visite_attribue_visiteur_delete)

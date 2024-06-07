@@ -1,56 +1,21 @@
 {% extends "base.html" %}
-{% block title %} Editer un GENRE (WTF) {% endblock %}
+{% block title %} Editer une Société {% endblock %}
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <p>
-                Editer un GENRE
+                Editer une Société
             </p>
             <form action="" method="POST" novalidate>
                 <!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
                 {{ form_update.hidden_tag() }}
-                <input type="hidden" name="id_genre" value="{{ id_genre }}">
+                <input type="hidden" name="id_societe" value="{{ id_societe_update }}">
                 <div class="form-group">
                     <p>
-                        {{ form_update.nom_genre_updatewtf.label }}<br>
-                        {{ form_update.nom_genre_updatewtf(size=32) }}<br>
-                        {% for error in form_update.nom_genre_updatewtf.errors %}
-                            <span style="color: red;">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    <p>
-                        {{ form_update.prenom_genre_updatewtf.label }}<br>
-                        {{ form_update.prenom_genre_updatewtf(size=32) }}<br>
-                        {% for error in form_update.prenom_genre_updatewtf.errors %}
-                            <span style="color: red;">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    <p>
-                        {{ form_update.adresse_genre_updatewtf.label }}<br>
-                        {{ form_update.adresse_genre_updatewtf(size=32) }}<br>
-                        {% for error in form_update.adresse_genre_updatewtf.errors %}
-                            <span style="color: red;">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    <p>
-                        {{ form_update.datenaiss_genre_updatewtf.label }}<br>
-                        {{ form_update.datenaiss_genre_updatewtf(size=32) }}<br>
-                        {% for error in form_update.datenaiss_genre_updatewtf.errors %}
-                            <span style="color: red;">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    <p>
-                        {{ form_update.telephone_genre_updatewtf.label }}<br>
-                        {{ form_update.telephone_genre_updatewtf(size=32) }}<br>
-                        {% for error in form_update.telephone_genre_updatewtf.errors %}
-                            <span style="color: red;">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    <p>
-                        {{ form_update.vehicule_genre_updatewtf.label }}<br>
-                        {{ form_update.vehicule_genre_updatewtf(size=32) }}<br>
-                        {% for error in form_update.vehicule_genre_updatewtf.errors %}
+                        {{ form_update.nom_societe_update_wtf.label }}<br>
+                        {{ form_update.nom_societe_update_wtf(size=32) }}<br>
+                        {% for error in form_update.nom_societe_update_wtf.errors %}
                             <span style="color: red;">[{{ error }}]</span>
                         {% endfor %}
                     </p>

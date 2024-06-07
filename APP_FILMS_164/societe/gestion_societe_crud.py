@@ -61,7 +61,7 @@ def societes_afficher(order_by, id_societe_sel):
                                             f"{societes_afficher.__name__} ; "
                                             f"{Exception_societes_afficher}")
 
-    return render_template("societes/societes_afficher.html", data=data_societes)
+    return render_template("societe/societe_afficher.html", data=data_societes)
 
 
 """
@@ -115,7 +115,7 @@ def societes_ajouter_wtf():
                                               f"{societes_ajouter_wtf.__name__} ; "
                                               f"{Exception_societes_ajouter_wtf}")
 
-    return render_template("societes/societes_ajouter_wtf.html", form=form)
+    return render_template("societe/societe_ajouter_wtf.html", form=form)
 
 
 """
@@ -190,8 +190,94 @@ def societe_update_wtf():
                                         f"{societe_update_wtf.__name__} ; "
                                         f"{Exception_societe_update_wtf}")
 
-    return render_template("societes/societe_update_wtf.html", form_update=form_update)
+    return render_template("societe/societe_update_wtf.html", form_update=form_update)
 
 
+@app.route("/societe_delete", methods=['GET', 'POST'])
+def societe_delete_wtf():
+    data_visiteur_attribue_societe_delete = None
+    btn_submit_del = None
+    # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_societe"
+    id_societe_delete = request.values['id_societe_btn_delete_html']
 
+    # Objet formulaire pour effacer la société sélectionnée.
+    form_delete = FormWTFDeleteSociete()
+    try:
+        print(" on submit ", form_delete.validate_on_submit())
+        if request.method == "POST" and form_delete.validate_on_submit():
 
+            if form_delete.submit_btn_annuler.data:
+                return redirect(url_for("societes_afficher", order_by="ASC", id_societe_sel=0))
+
+            if form_delete.submit_btn_conf_del.data:
+                # Récupère les données afin d'afficher à nouveau
+                # le formulaire "societe/societe_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+                data_visiteur_attribue_societe_delete = session['data_visiteur_attribue_societe_delete']
+                print("data_visiteur_attribue_societe_delete ", data_visiteur_attribue_societe_delete)
+
+                flash(f"Effacer la société de façon définitive de la BD !!!", "danger")
+                # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
+                # On affiche le bouton "Effacer société" qui va irrémédiablement EFFACER la société
+                btn_submit_del = True
+
+            if form_delete.submit_btn_del.data:
+                valeur_delete_dictionnaire = {"value_id_societe": id_societe_delete}
+                print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
+
+                str_sql_delete_visiteur_societe = """DELETE FROM t_visiteur_societe WHERE FK_societe = %(value_id_societe)s"""
+                str_sql_delete_idsociete = """DELETE FROM t_societe WHERE ID_Societe = %(value_id_societe)s"""
+
+                with DBconnection() as mconn_bd:
+                    mconn_bd.execute(str_sql_delete_visiteur_societe, valeur_delete_dictionnaire)
+                    mconn_bd.execute(str_sql_delete_idsociete, valeur_delete_dictionnaire)
+
+                flash(f"Société définitivement effacée !!", "success")
+                print(f"Société définitivement effacée !!")
+
+                # afficher les données
+                return redirect(url_for('societes_afficher', order_by="ASC", id_societe_sel=0))
+
+        if request.method == "GET":
+            valeur_select_dictionnaire = {"value_id_societe": id_societe_delete}
+            print(id_societe_delete, type(id_societe_delete))
+
+            # Requête qui affiche tous les visiteurs attribués à la société que l'utilisateur veut effacer
+            str_sql_societe_visiteur_delete = """SELECT t_visiteur_societe.ID_visiteur_societe, t_visiteur.Nom, t_visiteur.Prenom, t_societe.Nom_de_la_Societe 
+                                                FROM t_visiteur_societe 
+                                                INNER JOIN t_visiteur ON t_visiteur_societe.FK_visiteur = t_visiteur.ID_Visiteur
+                                                INNER JOIN t_societe ON t_visiteur_societe.FK_societe = t_societe.ID_Societe
+                                                WHERE FK_societe = %(value_id_societe)s"""
+            with DBconnection() as mydb_conn:
+                mydb_conn.execute(str_sql_societe_visiteur_delete, valeur_select_dictionnaire)
+                data_visiteur_attribue_societe_delete = mydb_conn.fetchall()
+                print("data_visiteur_attribue_societe_delete...", data_visiteur_attribue_societe_delete)
+
+                # Nécessaire pour mémoriser les données afin d'afficher à nouveau
+                # le formulaire "societe/societe_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+                session['data_visiteur_attribue_societe_delete'] = data_visiteur_attribue_societe_delete
+
+                # Opération sur la BD pour récupérer "ID_Societe" et "Nom_de_la_Societe" de la "t_societe"
+                str_sql_id_societe = "SELECT ID_Societe, Nom_de_la_Societe FROM t_societe WHERE ID_Societe = %(value_id_societe)s"
+
+                mydb_conn.execute(str_sql_id_societe, valeur_select_dictionnaire)
+                # Une seule valeur est suffisante "fetchone()",
+                # vu qu'il n'y a qu'un seul champ "nom société" pour l'action DELETE
+                data_nom_societe = mydb_conn.fetchone()
+                print("data_nom_societe ", data_nom_societe, " type ", type(data_nom_societe), " societe ",
+                      data_nom_societe["Nom_de_la_Societe"])
+
+            # Afficher la valeur sélectionnée dans le champ du formulaire "societe_delete_wtf.html"
+            form_delete.nom_societe_delete_wtf.data = data_nom_societe["Nom_de_la_Societe"]
+
+            # Le bouton pour l'action "DELETE" dans le form. "societe_delete_wtf.html" est caché.
+            btn_submit_del = False
+
+    except Exception as Exception_societe_delete_wtf:
+        raise ExceptionSocieteDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
+                                        f"{societe_delete_wtf.__name__} ; "
+                                        f"{Exception_societe_delete_wtf}")
+
+    return render_template("societe/societe_delete_wtf.html",
+                           form_delete=form_delete,
+                           btn_submit_del=btn_submit_del,
+                           data_visiteur_associes=data_visiteur_attribue_societe_delete)

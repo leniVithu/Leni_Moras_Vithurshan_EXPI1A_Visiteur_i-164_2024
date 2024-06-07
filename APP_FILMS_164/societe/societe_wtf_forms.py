@@ -13,7 +13,7 @@ class FormWTFAjouterSociete(FlaskForm):
     """
         Formulaire pour ajouter une société.
     """
-    nom_societe_regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'\- ]*$"
+    nom_societe_regexp = r"^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'\- ]*$"
     nom_societe_wtf = StringField("Nom de la société ", validators=[
         Length(min=2, max=255, message="min 2 max 255"),
         Regexp(nom_societe_regexp,
@@ -24,27 +24,27 @@ class FormWTFAjouterSociete(FlaskForm):
 
 class FormWTFUpdateSociete(FlaskForm):
     """
-        Formulaire pour mettre à jour une société.
+        Dans le formulaire "societe_update_wtf.html" on impose que le champ soit rempli.
+        Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_societe_regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'\- ]*$"
+    nom_societe_regexp = r"^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'\- ]*$"
     nom_societe_update_wtf = StringField("Nom de la société ", validators=[
-        Length(min=2, max=255, message="min 2 max 255"),
+        Length(min=2, max=20, message="min 2 max 20"),
         Regexp(nom_societe_regexp,
                message="Pas de chiffres, de caractères spéciaux, d'espace à double, de double apostrophe, de double trait d'union")
     ])
-
-    submit = SubmitField("Mettre à jour la société")
+    submit = SubmitField("Update société")
 
 class FormWTFDeleteSociete(FlaskForm):
     """
-        Dans le formulaire "genre_delete_wtf.html"
+        Dans le formulaire "societe_delete_wtf.html"
 
-        nom_genre_delete_wtf : Champ qui reçoit la valeur du genre, lecture seule. (readonly=true)
+        nom_societe_delete_wtf : Champ qui reçoit la valeur du nom de la société, lecture seule. (readonly=true)
         submit_btn_del : Bouton d'effacement "DEFINITIF".
-        submit_btn_conf_del : Bouton de confirmation pour effacer un "genre".
-        submit_btn_annuler : Bouton qui permet d'afficher la table "t_genre".
+        submit_btn_conf_del : Bouton de confirmation pour effacer une société.
+        submit_btn_annuler : Bouton qui permet d'afficher la table "t_societe".
     """
-    nom_genre_delete_wtf = StringField("Effacer ce genre")
-    submit_btn_del = SubmitField("Effacer genre")
-    submit_btn_conf_del = SubmitField("Etes-vous sur d'effacer ?")
+    nom_societe_delete_wtf = StringField("Effacer cette société")
+    submit_btn_del = SubmitField("Effacer société")
+    submit_btn_conf_del = SubmitField("Etes-vous sûr d'effacer ?")
     submit_btn_annuler = SubmitField("Annuler")

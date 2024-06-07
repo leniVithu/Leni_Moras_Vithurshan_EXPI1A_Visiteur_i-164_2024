@@ -90,7 +90,8 @@ class ExceptionGenreDeleteWtf(Base):
 class ExceptionGenreUpdateWtf(Base):
     pass
 
-
+class ExceptionSocieteDeleteWtf(Base):
+    pass
 class ExceptionGenresAjouterWtf(Base):
     pass
 
@@ -101,6 +102,17 @@ class ExceptionFilmsGenresAfficher(Base):
 
 class ExceptionEditGenreFilmSelected(Base):
     pass
+
+class ExceptionVisiteursSocietesAfficher(Base):
+    pass
+class ExceptionVisiteursSocietesAfficherData(Base):
+    pass
+
+class ExceptionEditVisiteurSocieteSelected(Base):
+    pass
+class ExceptionUpdateVisiteurSocieteSelected(Base):
+    pass
+
 
 
 class ExceptionUpdateGenreFilmSelected(Base):
