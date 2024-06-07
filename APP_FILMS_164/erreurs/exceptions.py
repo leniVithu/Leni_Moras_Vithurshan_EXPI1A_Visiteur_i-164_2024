@@ -115,11 +115,11 @@ class ExceptionUpdateVisiteurSocieteSelected(Base):
 
 
 
-class ExceptionUpdateGenreFilmSelected(Base):
+class ExceptionvisiteAfficher(Base):
     pass
 
 
-class ExceptionGenresFilmsAfficherData(Base):
+class ExceptionvisiteAjouterWtf(Base):
     pass
 
 

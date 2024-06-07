@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %} Ajouter une visite (WTF) {% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Ajouter une visite
+            </p>
+            <form action="" method="POST" novalidate>
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <p>
+                        {{ form.date_de_visite_wtf.label }}<br>
+                        {{ form.date_de_visite_wtf(size=32) }}<br>
+                        {% for error in form.date_de_visite_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="form-group">
+                    <p>
+                        {{ form.heure_d_arrivee_prevue_wtf.label }}<br>
+                        {{ form.heure_d_arrivee_prevue_wtf(size=32) }}<br>
+                        {% for error in form.heure_d_arrivee_prevue_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="form-group">
+                    <p>
+                        {{ form.heure_d_arrivee_reelle_wtf.label }}<br>
+                        {{ form.heure_d_arrivee_reelle_wtf(size=32) }}<br>
+                        {% for error in form.heure_d_arrivee_reelle_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="form-group">
+                    <p>
+                        {{ form.duree_wtf.label }}<br>
+                        {{ form.duree_wtf(size=32) }}<br>
+                        {% for error in form.duree_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="form-group">
+                    <p>
+                        {{ form.heure_de_depart_wtf.label }}<br>
+                        {{ form.heure_de_depart_wtf(size=32) }}<br>
+                        {% for error in form.heure_de_depart_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="form-group">
+                    <p>
+                        {{ form.motif_de_visite_wtf.label }}<br>
+                        {{ form.motif_de_visite_wtf(size=32) }}<br>
+                        {% for error in form.motif_de_visite_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.frequence_de_visites_wtf.label }}<br>
+                        {{ form.frequence_de_visites_wtf(size=32) }}<br>
+                        {% for error in form.frequence_de_visites_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.nom_du_batiment_wtf.label }}<br>
+                        {{ form.nom_du_batiment_wtf(size=32) }}<br>
+                        {% for error in form.nom_du_batiment_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                </div>
+                {{ form.submit(class="btn btn-primary") }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

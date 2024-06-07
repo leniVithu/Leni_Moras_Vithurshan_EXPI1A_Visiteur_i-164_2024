@@ -44,16 +44,20 @@ try:
     from APP_FILMS_164.genres import gestion_genres_crud
     from APP_FILMS_164.demos_om_164 import routes_demos
 
-    from APP_FILMS_164.films_genres import gestion_films_genres_crud
-    from APP_FILMS_164.erreurs import msg_avertissements
 
-    from APP_FILMS_164.films import gestion_films_crud
-    from APP_FILMS_164.films import gestion_films_wtf_forms
+    from APP_FILMS_164.erreurs import msg_avertissements
 
     from APP_FILMS_164.societe import gestion_societe_crud
     from APP_FILMS_164.societe import societe_wtf_forms
 
     from APP_FILMS_164.visiteur_societe import visiteur_societe_crud
+
+    from APP_FILMS_164.visite import visite_crud
+    from APP_FILMS_164.visite import visite_wtf_forms
+
+
+
+
 
 except Exception as Exception_init_app_films_164:
     print(f"4567756434 Une erreur est survenue {type(Exception_init_app_films_164)} dans"

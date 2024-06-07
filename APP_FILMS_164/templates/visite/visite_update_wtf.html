@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %} Modifier une visite {% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Modifier une visite
+            </p>
+            <form action="" method="POST" novalidate>
+                <!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
+                {{ form_update.hidden_tag() }}
+                <input type="hidden" name="id_visite" value="{{ id_visite_update }}">
+                <div class="form-group">
+                    <p>
+                        {{ form_update.date_visite_update_wtf.label }}<br>
+                        {{ form_update.date_visite_update_wtf(size=32) }}<br>
+                        {% for error in form_update.date_visite_update_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form_update.heure_arrivee_prevue_update_wtf.label }}<br>
+                        {{ form_update.heure_arrivee_prevue_update_wtf(size=32) }}<br>
+                        {% for error in form_update.heure_arrivee_prevue_update_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form_update.heure_arrivee_reelle_update_wtf.label }}<br>
+                        {{ form_update.heure_arrivee_reelle_update_wtf(size=32) }}<br>
+                        {% for error in form_update.heure_arrivee_reelle_update_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form_update.heure_depart_update_wtf.label }}<br>
+                        {{ form_update.heure_depart_update_wtf(size=32) }}<br>
+                        {% for error in form_update.heure_depart_update_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form_update.duree_update_wtf.label }}<br>
+                        {{ form_update.duree_update_wtf(size=32) }}<br>
+                        {% for error in form_update.duree_update_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form_update.motif_visite_update_wtf.label }}<br>
+                        {{ form_update.motif_visite_update_wtf(size=32) }}<br>
+                        {% for error in form_update.motif_visite_update_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form_update.frequence_visites_update_wtf.label }}<br>
+                        {{ form_update.frequence_visites_update_wtf(size=32) }}<br>
+                        {% for error in form_update.frequence_visites_update_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form_update.nom_batiment_update_wtf.label }}<br>
+                        {{ form_update.nom_batiment_update_wtf(size=32) }}<br>
+                        {% for error in form_update.nom_batiment_update_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                </div>
+                {{ form_update.submit(class="btn btn-primary") }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

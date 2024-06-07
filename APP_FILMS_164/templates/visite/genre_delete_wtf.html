@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %} Effacer un Visiteur {% endblock %}
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<p>
+				Effacer un Visiteur
+			</p>
+			<form action="" method="POST" novalidate>
+				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
+				{{ form_delete.hidden_tag() }}
+				<table class="table table-bordered table-sm">
+					{% if data_societe_associes or data_visite_associes %}
+						<h3>Ce visiteur est associé avec les sociétés et/ou visites suivantes :</h3>
+					{% else %}
+						<h3>Ce visiteur à effacer n'est associé à aucune société ou visite.</h3>
+					{% endif %}
+					{% if data_societe_associes %}
+						<thead>
+							<tr>
+								<th>Société(s)</th>
+							</tr>
+						</thead>
+						{% for row in data_societe_associes %}
+							<tbody>
+								<tr>
+									<td>{{ row.Nom_de_la_Societe }}</td>
+								</tr>
+							</tbody>
+						{% endfor %}
+					{% endif %}
+					{% if data_visite_associes %}
+						<thead>
+							<tr>
+								<th>Date de Visite</th>
+								<th>Motif de Visite</th>
+								<th>Nom du Bâtiment</th>
+							</tr>
+						</thead>
+						{% for row in data_visite_associes %}
+							<tbody>
+								<tr>
+									<td>{{ row.Date_de_Visite }}</td>
+									<td>{{ row.Motif_de_Visite }}</td>
+									<td>{{ row.Nom_du_Batiment }}</td>
+								</tr>
+							</tbody>
+						{% endfor %}
+					{% endif %}
+				</table>
+
+				<div class="form-group">
+					<p>
+						{{ form_delete.nom_genre_delete_wtf.label }}<br>
+						{{ form_delete.nom_genre_delete_wtf(size=32, readonly=true) }}<br>
+						{% for error in form_delete.nom_genre_delete_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+				</div>
+				{{ form_delete.submit_btn_conf_del(class="btn btn-info") }}
+
+				{% if btn_submit_del %}
+					{{ form_delete.submit_btn_del(class="btn btn-danger") }}
+				{% endif %}
+
+				{{ form_delete.submit_btn_annuler(class="btn btn-primary") }}
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

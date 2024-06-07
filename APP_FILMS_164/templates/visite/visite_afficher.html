@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %} Afficher GENRES {% endblock %}
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+            <table class="table table-bordered table-sm">
+            {% if data %}
+                <thead>
+                    <tr>
+                        <th class="align-middle">
+                            ID
+                        </th>
+                        <th class="align-middle">
+                            Date Visite
+                        </th>
+                        <th  class="align-middle">
+							Heure d'Arrivée Prevue
+                        </th>
+                        <th class="align-middle">
+							Heure d'Arrivée Réelle
+                        </th>
+                        <th class="align-middle">
+							Duree
+                        </th>
+						<th class="align-middle">
+							Heure Départ
+                        </th>
+
+						<th class="align-middle">
+							Motif Visite
+                        </th>
+						<th class="align-middle">
+							Frequence visites
+                        </th>
+						<th class="align-middle">
+							Nom Bâtiment
+                        </th>
+                    </tr>
+                </thead>
+            {% endif %}
+
+            {% for row in data %}
+				<tbody>
+					<tr>
+						<td class="align-middle">
+							{{ row.ID_Visite }}
+						</td>
+						<td class="align-middle">
+							{{ row.Date_de_Visite }}
+						</td>
+						<td class="align-middle">
+							{{ row.Heure_d_Arrivee_Prevue }}
+						</td>
+						<td class="align-middle">
+							{{ row.Heure_d_Arrivee_Reelle }}
+						</td>
+						<td class="align-middle">
+							{{ row.Duree }}
+						</td>
+						<td class="align-middle">
+							{{ row.Heure_de_Depart }}
+						</td>
+						<td class="align-middle">
+							{{ row.Motif_de_Visite }}
+						</td>
+						<td class="align-middle">
+							{{ row.Frequence_de_visites }}
+						</td>
+
+						<td class="align-middle">
+							{{ row.Nom_du_Batiment }}
+						</td>
+						<td class="text-center" class="align-middle">
+							<a class="btn btn-primary" href="{{ url_for('visite_ajouter_wtf') }}" role="button">Ajouter</a>
+						</td>
+						<td class="text-center" class="align-middle">
+							<a class="btn btn-warning" href="{{ url_for('visite_update_wtf', id_visite_btn_edit_html=row.ID_Visite) }}" role="button">Edit</a>
+						</td>
+						<td class="text-center" class="align-middle">
+							<a class="btn btn-danger" href="{{ url_for('genre_delete_wtf', id_genre_btn_delete_html=row.ID_Visite) }}" role="button">Delete</a>
+						</td>
+					</tr>
+				</tbody>
+            {% else %}
+				<tbody>
+					<tr>
+						<td>
+							Aucun genre.
+						</td>
+						<td>
+							<a class="btn btn-primary" href="{{ url_for('genres_ajouter_wtf') }}" role="button">Ajouter</a>
+						</td>
+					</tr>
+				</tbody>
+            {% endfor %}
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}
