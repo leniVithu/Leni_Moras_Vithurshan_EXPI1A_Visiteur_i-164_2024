@@ -118,6 +118,13 @@ class ExceptionFilmUpdateWtf(Base):
 class ExceptionFilmDeleteWtf(Base):
     pass
 
+class ExceptionSocietesAfficher(Base):
+    pass
+class ExceptionSocietesAjouterWtf(Base):
+    pass
+class ExceptionSocieteUpdateWtf(Base):
+    pass
+
 
 class ExceptionInitAppFilms164(Base):
     pass
